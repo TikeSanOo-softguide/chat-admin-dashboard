@@ -1,15 +1,4 @@
-# Configuration file for Synapse.
-#
-# This is a YAML file: see [1] for a quick introduction. Note in particular
-# that *indentation is important*: all the elements of a list or dictionary
-# should have the same indentation.
-#
-# [1] https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
-#
-# For more information on how to configure Synapse, including a complete accounting of
-# each option, go to docs/usage/configuration/config_documentation.md or
-# https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
-server_name: "localhost"
+server_name: "matrix.chat-admin.burmalearn.site"
 pid_file: /data/homeserver.pid
 listeners:
   - port: 8008
@@ -21,16 +10,13 @@ listeners:
         compress: false
 database:
   name: psycopg2
-  allow_unsafe_locale: true
   args:
     user: chat-user
     password: P@ss3ord
     database: chat-db
     host: postgres
-    cp_min: 5
-    cp_max: 10
     port: 5432
-log_config: "/data/localhost.log.config"
+log_config: "/data/homeserver.log"
 media_store_path: /data/media_store
 registration_shared_secret: "uR;WaHUH#&kK0Un.e~aNcF5f;BcTS9cFR=XB=XVTGwj0t05zMq"
 report_stats: false
@@ -39,3 +25,4 @@ form_secret: "Lo=_Bc&Um;MDI@^#z:gO79QgxJ4u#PxqOBH3_PP=N=&9BtEPkJ"
 signing_key_path: "/data/localhost.signing.key"
 trusted_key_servers:
   - server_name: "matrix.org"
+suppress_key_server_warning: true
