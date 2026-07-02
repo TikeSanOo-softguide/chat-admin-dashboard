@@ -2,10 +2,10 @@ services:
   chat:
     image: matrixdotorg/synapse:v1.141.0
     container_name: chat
-    restart: unless-stopped
+    restart: always
     command: ["run"]
     ports:
-      - "8008:8008"
+      - "127.0.0.1:8008:8008" # Listen only on localhost internally
     volumes:
       - chat_data:/data
     depends_on:
@@ -14,13 +14,12 @@ services:
   postgres:
     image: postgres:15
     container_name: chat-postgres
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
+    restart: always
+    # ports: 5432:5432 ကို ဖြုတ်လိုက်ပါ။ internal network ကနေ chat က လှမ်းခေါ်လို့ရပါတယ်။
     environment:
-      POSTGRES_DB: chat
-      POSTGRES_USER: chat
-      POSTGRES_PASSWORD: chatpass
+      POSTGRES_DB: chat-db
+      POSTGRES_USER: chat-user
+      POSTGRES_PASSWORD: P@ss3ord # Production Password သုံးပါ
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -29,21 +28,12 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: chat-admin
-    restart: unless-stopped
+    restart: always
     ports:
-      - "3003:5173"
-    volumes:
-      - .:/app # Mount entire project for hot-reload
-      # - ./node_modules:/app/node_modules
-      - /app/node_modules
-    environment:
-      CHOKIDAR_USEPOLLING: "true"
-      NODE_ENV: development
-      WATCHPACK_POLLING: "true" # Better file watching for WSL
+      - "127.0.0.1:3003:80" # Nginx in container uses port 80
+    # volumes, tty, stdin_open တွေ အကုန်ဖြုတ်လိုက်ပါ၊ production မှာ မလိုတော့ပါ။
     depends_on:
       - chat
-    stdin_open: true # Needed for some dev servers
-    tty: true
 
 volumes:
   chat_data:

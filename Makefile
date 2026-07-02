@@ -2,7 +2,7 @@
 # Variables
 # =====================
 SYNAPSE_IMAGE = matrixdotorg/synapse:v1.141.0
-SERVER_NAME = localhost
+SERVER_NAME = chat-admin-backend.burmalearn.site
 DATA_VOLUME = chat-admin-dashboard_chat_data
 
 # =====================
