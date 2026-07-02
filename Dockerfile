@@ -2,7 +2,7 @@
 FROM node:lts AS builder
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci # Use ci for strict production install
+RUN npm install # Use ci for strict production install
 COPY . .
 RUN npm run build # Builds the Vite app to /app/dist
 
