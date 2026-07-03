@@ -4,8 +4,10 @@ services:
     container_name: chat
     restart: always
     command: ["run"]
+    environment:
+      - SYNAPSE_LOG_LEVEL=WARNING
     ports:
-      - "127.0.0.1:8008:8008" # Listen only on localhost internally
+      - "127.0.0.1:8008:8008"
     volumes:
       - chat_data:/data
     depends_on:
@@ -15,11 +17,10 @@ services:
     image: postgres:15
     container_name: chat-postgres
     restart: always
-    # ports: 5432:5432 ကို ဖြုတ်လိုက်ပါ။ internal network ကနေ chat က လှမ်းခေါ်လို့ရပါတယ်။
     environment:
       POSTGRES_DB: chat-db
       POSTGRES_USER: chat-user
-      POSTGRES_PASSWORD: P@ss3ord # Production Password သုံးပါ
+      POSTGRES_PASSWORD: P@ss3ord
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -30,8 +31,7 @@ services:
     container_name: chat-admin
     restart: always
     ports:
-      - "127.0.0.1:3003:80" # Nginx in container uses port 80
-    # volumes, tty, stdin_open တွေ အကုန်ဖြုတ်လိုက်ပါ၊ production မှာ မလိုတော့ပါ။
+      - "127.0.0.1:3003:80"
     depends_on:
       - chat
 
